@@ -1,175 +1,659 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Altranex.dev | Automate, Innovate, Dominate</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Rubik', sans-serif;
-      background-color: #0f0f1a;
-      color: #f0f0f0;
-      line-height: 1.75;
-      font-size: 1rem;
-    }
-    header {
-      padding: 2rem;
-      background: linear-gradient(90deg, #08fdd8, #1e90ff);
-      text-align: center;
-    }
-    header h1 {
-      margin: 0;
-      font-size: 2.5rem;
-      color: #0f0f1a;
-    }
-    section {
-      padding: 2rem;
-      max-width: 900px;
-      margin: auto;
-    }
-    h2 {
-      color: #08fdd8;
-      margin-top: 2rem;
-      font-size: 1.6rem;
-    }
-    ul, p {
-      font-size: 1.1rem;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 1rem;
-      font-size: 1.05rem;
-    }
-    table th, table td {
-      border: 1px solid #444;
-      padding: 0.75rem;
-    }
-    table th {
-      background-color: #1e1e2e;
-    }
-    footer {
-      background: #1a1a2f;
-      padding: 1rem;
-      text-align: center;
-      color: #888;
-    }
-    a { color: #08fdd8; text-decoration: none; }
-    a:hover { text-decoration: underline; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Altranex.dev - Website Design Proposal</title>
+    <!--
+        Note: The Tailwind CSS CDN is used here for convenience in this environment.
+        For production, it is recommended to install Tailwind as a PostCSS plugin
+        or use the Tailwind CLI as per the official documentation.
+    -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d1117;
+            color: #c9d1d9;
+            line-height: 1.6;
+            overflow-x: hidden; /* Prevent horizontal scroll from animations */
+        }
+        .slide {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem 1rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background-color: transparent;
+            transition: background-color 0.5s ease;
+            z-index: 10;
+        }
+        .slide-content {
+            max-width: 900px;
+            width: 100%;
+        }
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #58a6ff;
+            text-shadow: 0 0 15px rgba(88, 166, 255, 0.5);
+            transition: color 0.3s ease;
+        }
+        h2 {
+            font-size: 2.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #c9d1d9;
+            transition: color 0.3s ease;
+        }
+        .highlight {
+            color: #58a6ff;
+            font-weight: 700;
+        }
+        .icon-list-item {
+            display: flex;
+            align-items: center;
+            text-align: left;
+            gap: 1rem;
+        }
+        .icon {
+            flex-shrink: 0;
+            color: #58a6ff;
+            width: 28px;
+            height: 28px;
+        }
+        .glow-button {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            padding: 0.75rem 2rem;
+            border-radius: 9999px;
+            background: #58a6ff;
+            color: #0d1117;
+            text-shadow: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(88, 166, 255, 0.5);
+        }
+        .glow-button:hover {
+            box-shadow: 0 0 20px rgba(88, 166, 255, 0.8), 0 0 30px rgba(88, 166, 255, 0.6);
+            transform: translateY(-2px);
+        }
+        .card {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Nav & Mobile Menu */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(13, 17, 23, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 100;
+        }
+        .nav-link.active {
+            color: #ffffff; /* Highlight color for active link */
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+        }
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(13, 17, 23, 0.95);
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+            z-index: 99;
+        }
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+        .mobile-nav-link.active {
+            color: #58a6ff; /* Highlight color for mobile link */
+            font-weight: 700;
+        }
+
+        /* Scroll-triggered Animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .animate-on-scroll.in-view {
+            opacity: 1;
+        }
+        .fade-in-bottom {
+            transform: translateY(50px);
+        }
+        .fade-in-bottom.in-view {
+            transform: translateY(0);
+        }
+        .fade-in-left {
+            transform: translateX(-50px);
+        }
+        .fade-in-left.in-view {
+            transform: translateX(0);
+        }
+        .fade-in-right {
+            transform: translateX(50px);
+        }
+        .fade-in-right.in-view {
+            transform: translateX(0);
+        }
+
+        /* Canvas background styling */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+    </style>
 </head>
-<body>
-  <header>
-    <h1>Altranex.dev | Automate. Innovate. Dominate.</h1>
-  </header>
-  <section>
-    <h2>🧾 Investor Proposal</h2>
-    <p><strong>Altranex.dev</strong> is a futuristic tech brand delivering intelligent solutions in <strong>AI</strong>, <strong>automation</strong>, <strong>trading systems</strong>, <strong>P2P infrastructure</strong>, and <strong>digital investments</strong>.</p>
-    <p>We build smart systems that automate results, generate revenue, and scale businesses. From proprietary bots to white-label trading & P2P infrastructure, we're creating a high-yield digital ecosystem.</p>
-    <p>We're raising <strong>$10,000</strong> to structure, scale, and grow our revenue-generating systems into a 6–7 figure digital empire.</p>
+<body class="bg-grid">
 
-    <h2>🔹 Services We Offer</h2>
-    <h3>⚙️ Tech & Software</h3>
-    <ul>
-      <li>AI Bots & Automation Systems</li>
-      <li>Web, App & Software Development</li>
-      <li>Business Workflow Automation</li>
-      <li>VPS & Cloud Infrastructure</li>
-    </ul>
-    <h3>📈 Trading Investment</h3>
-    <ul>
-      <li>Custom Trading Bots (MT4/MT5, Grid, Martingale, Hedging, etc.)</li>
-      <li>ROI-based Investment Portfolios</li>
-      <li>Prop-Firm Compliant Trading Strategies</li>
-      <li>High-Frequency and Copy Trading Models</li>
-    </ul>
-    <h3>🔗 P2P & Financial Infrastructure</h3>
-    <ul>
-      <li>P2P Crypto Services (Escrow, Exchange, Wallets)</li>
-      <li>Custom P2P Dashboard / Automation Tools</li>
-      <li>On-ramp/off-ramp Integration for Fiat-Crypto Movement</li>
-    </ul>
+    <!-- Particle Background Canvas -->
+    <canvas id="particles-canvas"></canvas>
 
-    <h2>🔹 Funding Allocation</h2>
-    <table>
-      <tr><th>Category</th><th>Budget</th></tr>
-      <tr><td>Marketing & Ads</td><td>$1,000</td></tr>
-      <tr><td>High-End PCs (2–3 Units)</td><td>$2,000</td></tr>
-      <tr><td>Recording Tools</td><td>$500</td></tr>
-      <tr><td>Branding Assets</td><td>$500</td></tr>
-      <tr><td>Staffing (6 Months)</td><td>$1,000</td></tr>
-      <tr><td>VPS & Cloud Hosting</td><td>$800</td></tr>
-      <tr><td>Software Licenses</td><td>$700</td></tr>
-      <tr><td>P2P Platform Setup</td><td>$500</td></tr>
-      <tr><td>Strategy R&D & Testing</td><td>$500</td></tr>
-      <tr><td>Client Onboarding Systems</td><td>$300</td></tr>
-      <tr><td>Contingency & Reserve</td><td>$700</td></tr>
-    </table>
+    <!-- Navigation Bar -->
+    <nav class="navbar p-4 shadow-lg flex justify-between items-center">
+        <a href="#slide-1" class="text-xl font-bold text-white tracking-tight">
+            ALTRANEX<span class="text-sm font-normal align-top text-gray-400">.DEV</span>
+        </a>
+        <!-- Desktop Menu -->
+        <ul class="hidden md:flex space-x-6 text-gray-300 font-semibold">
+            <li><a href="#slide-1" class="nav-link hover:text-white transition-colors">Home</a></li>
+            <li><a href="#slide-2" class="nav-link hover:text-white transition-colors">About Us</a></li>
+            <li><a href="#slide-6" class="nav-link hover:text-white transition-colors">Pricing</a></li>
+            <li><a href="#slide-7" class="nav-link hover:text-white transition-colors">Why Choose Us</a></li>
+            <li><a href="#slide-8" class="nav-link hover:text-white transition-colors">Contact</a></li>
+        </ul>
+        <!-- Mobile Menu Button (Hamburger) -->
+        <button id="mobile-menu-btn" class="md:hidden text-white focus:outline-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+            </svg>
+        </button>
+    </nav>
 
-    <h2>🔹 Projections & Targets</h2>
-    <h3>📅 Year 1 (Launch & Foundation Phase)</h3>
-    <ul>
-      <li>Complete brand assets, web platform, bot library</li>
-      <li>Onboard 20–30 active paying clients (bots, P2P, VPS)</li>
-      <li>Build YouTube & Telegram audience to 5k+</li>
-      <li>Generate $12,000–$18,000 in revenue</li>
-      <li>Secure 5 investment accounts with weekly ROI plans</li>
-      <li>Launch P2P crypto escrow and exchange prototype</li>
-    </ul>
-    <h3>📅 Year 2 (Growth Phase)</h3>
-    <ul>
-      <li>Build Altranex SaaS dashboard for client automation</li>
-      <li>Scale to 100+ paying users across services</li>
-      <li>Launch paid bot-as-a-service subscriptions</li>
-      <li>Grow monthly recurring revenue (MRR) to $2,000+</li>
-      <li>Reach $35,000–$50,000 in total revenue</li>
-      <li>Partner with trading firms & local P2P vendors</li>
-      <li>Onboard 25+ ROI clients with capital above $100,000 managed</li>
-    </ul>
-    <h3>📅 Year 3 (Domination Phase)</h3>
-    <ul>
-      <li>Expand into 3 international markets (Africa, Europe, Asia)</li>
-      <li>Launch investment dashboard & automation app</li>
-      <li>Develop AI-backed prop firm trading assistant</li>
-      <li>Cross $100,000 in total cumulative revenue</li>
-      <li>Hire full-time technical & creative team</li>
-      <li>Begin fundraising for Series A or acquisition model</li>
-    </ul>
+    <!-- Mobile Menu Sidebar -->
+    <div id="mobile-menu" class="mobile-menu flex flex-col items-center justify-center space-y-8">
+        <button id="close-menu-btn" class="absolute top-6 right-6 text-white focus:outline-none">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+        <ul class="flex flex-col items-center space-y-6 text-2xl font-semibold text-gray-300">
+            <li><a href="#slide-1" class="mobile-nav-link hover:text-white transition-colors">Home</a></li>
+            <li><a href="#slide-2" class="mobile-nav-link hover:text-white transition-colors">About Us</a></li>
+            <li><a href="#slide-6" class="mobile-nav-link hover:text-white transition-colors">Pricing</a></li>
+            <li><a href="#slide-7" class="mobile-nav-link hover:text-white transition-colors">Why Choose Us</a></li>
+            <li><a href="#slide-8" class="mobile-nav-link hover:text-white transition-colors">Contact</a></li>
+        </ul>
+    </div>
 
-    <h2>🔹 Return on Investment (ROI)</h2>
-    <ul>
-      <li>5%–15% Equity stake in Altranex.dev</li>
-      <li>Priority revenue share on bots & P2P profits</li>
-      <li>Investor dashboard access for ROI tracking</li>
-      <li>Buy-back guarantee or scaling equity options within 12–24 months</li>
-    </ul>
+    <!-- Slide 1: Title Page -->
+    <section id="slide-1" class="slide animate-on-scroll fade-in-bottom">
+        <div class="slide-content text-center">
+            <div class="mb-8">
+                <h1 class="text-6xl font-bold mb-2">A ALTRANEX<span class="text-2xl font-normal align-top">.DEV</span></h1>
+                <p class="text-xl text-gray-400">Website & Digital Automation</p>
+            </div>
+            <h2 class="text-4xl md:text-5xl lg:text-6xl text-white font-bold tracking-tight mb-4">WEBSITE DESIGN PROPOSAL</h2>
+            <p class="text-gray-400 text-lg mb-2">Prepared by: Samuel Okoh for Altranex.dev</p>
+            <p class="text-gray-500">Date: August 1, 2025</p>
+        </div>
+    </section>
 
-    <h2>🔹 Investor Pitch</h2>
-    <p>With Altranex.dev, you’re investing in:</p>
-    <ul>
-      <li>🌍 Global digital automation demand</li>
-      <li>📊 Highly scalable trading & P2P tech</li>
-      <li>⚙️ Profitable SaaS and dev models</li>
-      <li>🧠 Founder-led innovation with lean execution</li>
-    </ul>
-    <p>Be part of the engine that powers the future of automation, AI, and smart finance.</p>
+    <!-- Slide 2: About Us -->
+    <section id="slide-2" class="slide bg-gray-900 animate-on-scroll fade-in-bottom">
+        <div class="slide-content text-left p-6">
+            <h2 class="text-4xl font-bold mb-6">About Us <span class="highlight">— Altranex.dev</span></h2>
+            <p class="text-lg md:text-xl leading-relaxed">
+                Altranex.dev is a forward-thinking tech and automation brand focused on crafting premium websites and digital tools for growth-driven businesses. We specialize in sleek, secure, mobile-optimized websites tailored to industries like real estate, finance, and automation.
+            </p>
+            <p class="text-lg md:text-xl leading-relaxed mt-4">
+                We don’t just design websites; <span class="highlight">we build digital assets that work for you.</span>
+            </p>
+        </div>
+    </section>
 
-    <h2>📩 Contact</h2>
-    <p><strong>Okoh Samuel</strong><br>
-    Founder, Altranex.dev<br>
-    <a href="mailto:info@altranex.dev">info@altranex.dev</a><br>
-    <a href="https://altranex.dev" target="_blank">www.altranex.dev</a><br>
-    WhatsApp: +2348123456789</p>
-  </section>
-  <footer>
-    &copy; 2025 Altranex.dev. Built for the future.
-  </footer>
+    <!-- Slide 3: Project Overview -->
+    <section id="slide-3" class="slide animate-on-scroll fade-in-left">
+        <div class="slide-content text-left p-6">
+            <h2 class="text-4xl font-bold mb-6">Project <span class="highlight">Overview</span></h2>
+            <p class="text-lg md:text-xl leading-relaxed">
+                We propose to design and develop a high-performing website tailored to your real estate brand’s goals. Our goal is to build a platform that converts visitors into leads, boosts online visibility, and reflects professionalism.
+            </p>
+            <p class="text-lg md:text-xl leading-relaxed mt-4">
+                Whether you want a clean landing page or a full-featured real estate portal, we offer <span class="highlight">flexible solutions designed for your success.</span>
+            </p>
+        </div>
+    </section>
+
+    <!-- Slide 4: Why You Need a Website -->
+    <section id="slide-4" class="slide bg-gray-900 animate-on-scroll fade-in-right">
+        <div class="slide-content p-6">
+            <h2 class="text-4xl font-bold mb-12">Why You Need a Website <br><span class="text-xl font-normal text-gray-500">(Not Just Social Media)</span></h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="icon-list-item card animate-on-scroll fade-in-bottom">
+                    <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-4a2 2 0 00-2-2H6a2 2 0 00-2 2v4a2 2 0 002 2zm1-9h10a1 1 0 011 1v4a1 1 0 01-1 1H7a1 1 0 01-1-1v-4a1 1 0 011-1z" />
+                    </svg>
+                    <div>
+                        <h3 class="text-lg font-semibold highlight">You Own It</h3>
+                        <p class="text-gray-400">Your digital property is safe from bans, hacks, or algorithm changes.</p>
+                    </div>
+                </div>
+                <div class="icon-list-item card animate-on-scroll fade-in-bottom">
+                    <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    <div>
+                        <h3 class="text-lg font-semibold highlight">Searchable on Google</h3>
+                        <p class="text-gray-400">Appear in search results and attract local clients.</p>
+                    </div>
+                </div>
+                <div class="icon-list-item card animate-on-scroll fade-in-bottom">
+                    <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 4.04A12.001 12.001 0 002.924 12c0 2.802.937 5.498 2.628 7.618a12.001 12.001 0 0014.896 0A12.001 12.001 0 0021.076 12a12.001 12.001 0 00-2.458-7.984z" />
+                    </svg>
+                    <div>
+                        <h3 class="text-lg font-semibold highlight">Builds Trust & Professionalism</h3>
+                        <p class="text-gray-400">A well-designed website establishes credibility.</p>
+                    </div>
+                </div>
+                <div class="icon-list-item card animate-on-scroll fade-in-bottom">
+                    <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <div>
+                        <h3 class="text-lg font-semibold highlight">Works 24/7</h3>
+                        <p class="text-gray-400">Showcases properties and collects leads even while you sleep.</p>
+                    </div>
+                </div>
+                <div class="icon-list-item card md:col-span-2 animate-on-scroll fade-in-bottom">
+                    <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                    </svg>
+                    <div>
+                        <h3 class="text-lg font-semibold highlight">Advanced Features</h3>
+                        <p class="text-gray-400">Only a website gives you listings, filters, contact forms, maps, etc.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 5: Deliverables -->
+    <section id="slide-5" class="slide animate-on-scroll fade-in-bottom">
+        <div class="slide-content p-6">
+            <h2 class="text-4xl font-bold mb-8">What You Get <span class="highlight">(Deliverables)</span></h2>
+            <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left">
+                <li class="flex items-center text-lg gap-3 card animate-on-scroll fade-in-bottom">
+                    <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v2a2 2 0 01-2 2m0-6V7a2 2 0 00-2-2H7a2 2 0 00-2 2v6m0-6h14" /></svg>
+                    <span>Homepage + Brand messaging</span>
+                </li>
+                <li class="flex items-center text-lg gap-3 card animate-on-scroll fade-in-bottom">
+                    <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.485 9.168 5 7.5 5S4.168 5.485 3 6.253v13C4.168 18.485 5.832 18 7.5 18s3.332.485 4.5 1.253m0-13C13.168 5.485 14.832 5 16.5 5c1.668 0 3.332.485 4.5 1.253v13C19.832 18.485 18.168 18 16.5 18s-3.332.485-4.5 1.253" /></svg>
+                    <span>About Us section</span>
+                </li>
+                <li class="flex items-center text-lg gap-3 card animate-on-scroll fade-in-bottom">
+                    <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v4a2 2 0 002 2h4a2 2 0 002-2V7m-4 12a2 2 0 01-2-2v-4a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4z" /></svg>
+                    <span>Services breakdown</span>
+                </li>
+                <li class="flex items-center text-lg gap-3 card animate-on-scroll fade-in-bottom">
+                    <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a2 2 0 01-2-2V6a2 2 0 012-2h6a2 2 0 012 2v2z" /></svg>
+                    <span>Contact page with form & WhatsApp</span>
+                </li>
+                <li class="flex items-center text-lg gap-3 card animate-on-scroll fade-in-bottom">
+                    <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7m-7-7v12m-6-12v12" /></svg>
+                    <span>Listings Page (for real estate)</span>
+                </li>
+                <li class="flex items-center text-lg gap-3 card animate-on-scroll fade-in-bottom">
+                    <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.088 12.072L8 15.15l-1-1-1 1-1-1-1 1-1-1-1 1" /></svg>
+                    <span>Testimonials/Reviews</span>
+                </li>
+                <li class="flex items-center text-lg gap-3 card animate-on-scroll fade-in-bottom">
+                    <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 21.25a.75.75 0 00.75.75h4.5a.75.75 0 00.75-.75L14.25 17m-4.5 0a.75.75 0 01-.75-.75V8.25a.75.75 0 01.75-.75h4.5a.75.75 0 01.75.75v8.00m-4.5 0h4.5" /></svg>
+                    <span>Responsive (mobile/tablet)</span>
+                </li>
+                <li class="flex items-center text-lg gap-3 card animate-on-scroll fade-in-bottom">
+                    <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                    <span>SEO-ready structure</span>
+                </li>
+                <li class="flex items-center text-lg gap-3 card animate-on-scroll fade-in-bottom">
+                    <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.313 2.687 6 6 6s6-2.687 6-6-2.687-6-6-6-6 2.687-6 6zM18 11v6m3-3h-6M6 11h.01M6 15h.01M6 19h.01" /></svg>
+                    <span>Secure, fast, and optimized</span>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Slide 6: Structured Pricing -->
+    <section id="slide-6" class="slide bg-gray-900 animate-on-scroll fade-in-right">
+        <div class="slide-content p-6">
+            <h2 class="text-4xl font-bold mb-8">Structured <span class="highlight">Pricing</span></h2>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse rounded-lg overflow-hidden card">
+                    <thead>
+                        <tr class="bg-gray-800">
+                            <th class="p-4 font-semibold text-lg">Package</th>
+                            <th class="p-4 font-semibold text-lg">Features</th>
+                            <th class="p-4 font-semibold text-lg">Timeline</th>
+                            <th class="p-4 font-semibold text-lg">Price (NGN)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-gray-700 hover:bg-gray-800 transition-colors animate-on-scroll fade-in-bottom">
+                            <td class="p-4 font-medium highlight">Landing Page</td>
+                            <td class="p-4">Single scroll page: About, Services, CTA, Contact, WhatsApp</td>
+                            <td class="p-4">14 – 21 days</td>
+                            <td class="p-4 font-bold">₦100,000</td>
+                        </tr>
+                        <tr class="border-b border-gray-700 hover:bg-gray-800 transition-colors animate-on-scroll fade-in-bottom">
+                            <td class="p-4 font-medium highlight">Starter Website</td>
+                            <td class="p-4">5-page site: Home, About, Services, Listings, Contact</td>
+                            <td class="p-4">14 – 21 days</td>
+                            <td class="p-4 font-bold">₦150,000</td>
+                        </tr>
+                        <tr class="border-b border-gray-700 hover:bg-gray-800 transition-colors animate-on-scroll fade-in-bottom">
+                            <td class="p-4 font-medium highlight">Business Website</td>
+                            <td class="p-4">Full Listings, Testimonials, Blog layout, WhatsApp integration</td>
+                            <td class="p-4">12 – 21 days</td>
+                            <td class="p-4 font-bold">₦200,000</td>
+                        </tr>
+                        <tr class="border-b border-gray-700 hover:bg-gray-800 transition-colors animate-on-scroll fade-in-bottom">
+                            <td class="p-4 font-medium highlight">Premium Website</td>
+                            <td class="p-4">Business + Admin dashboard (CMS), SEO, Analytics, CMS training</td>
+                            <td class="p-4">21 – 30 days</td>
+                            <td class="p-4 font-bold">₦300,000</td>
+                        </tr>
+                        <tr class="hover:bg-gray-800 transition-colors animate-on-scroll fade-in-bottom">
+                            <td class="p-4 font-medium highlight">Enterprise Website</td>
+                            <td class="p-4">Premium + Multi-agent login, uploads, client portal</td>
+                            <td class="p-4">25 – 30 days</td>
+                            <td class="p-4 font-bold">₦400,000+</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 7: Why Choose Altranex.dev? -->
+    <section id="slide-7" class="slide animate-on-scroll fade-in-left">
+        <div class="slide-content p-6">
+            <h2 class="text-4xl font-bold mb-8">Why Choose <span class="highlight">Altranex.dev?</span></h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left">
+                <div class="card animate-on-scroll fade-in-bottom">
+                    <div class="flex items-center gap-3 mb-2">
+                        <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20.005l-8-8 8-8m4 16l8-8-8-8" /></svg>
+                        <h3 class="text-lg font-semibold highlight">Custom Coded</h3>
+                    </div>
+                    <p class="text-sm text-gray-400">Websites are custom built, not drag-and-drop templates.</p>
+                </div>
+                <div class="card animate-on-scroll fade-in-bottom">
+                    <div class="flex items-center gap-3 mb-2">
+                        <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c1.657 0 3 1.343 3 3s-1.343 3-3 3-3-1.343-3-3 1.343-3 3-3z" /></svg>
+                        <h3 class="text-lg font-semibold highlight">Mobile First & SEO Friendly</h3>
+                    </div>
+                    <p class="text-sm text-gray-400">Builds are optimized for all devices and search engines.</p>
+                </div>
+                <div class="card animate-on-scroll fade-in-bottom">
+                    <div class="flex items-center gap-3 mb-2">
+                        <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a2 2 0 01-2-2V6a2 2 0 012-2h6a2 2 0 012 2v2z" /></svg>
+                        <h3 class="text-lg font-semibold highlight">Direct Support</h3>
+                    </div>
+                    <p class="text-sm text-gray-400">Direct support via chat or WhatsApp for peace of mind.</p>
+                </div>
+                <div class="card animate-on-scroll fade-in-bottom">
+                    <div class="flex items-center gap-3 mb-2">
+                        <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                        <h3 class="text-lg font-semibold highlight">Scalable</h3>
+                    </div>
+                    <p class="text-sm text-gray-400">Easily upgrade your website as your business grows.</p>
+                </div>
+                <div class="card animate-on-scroll fade-in-bottom">
+                    <div class="flex items-center gap-3 mb-2">
+                        <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 4.04A12.001 12.001 0 002.924 12c0 2.802.937 5.498 2.628 7.618a12.001 12.001 0 0014.896 0A12.001 12.001 0 0021.076 12a12.001 12.001 0 00-2.458-7.984z" /></svg>
+                        <h3 class="text-lg font-semibold highlight">Competitive Pricing</h3>
+                    </div>
+                    <p class="text-sm text-gray-400">Receive premium designs at a competitive price point.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 8: Call to Action / Closing -->
+    <section id="slide-8" class="slide bg-gray-900 animate-on-scroll fade-in-right">
+        <div class="slide-content text-center p-6">
+            <h2 class="text-4xl font-bold mb-4">Let’s Build Your Digital Presence</h2>
+            <p class="text-xl md:text-2xl mb-8">
+                Your brand deserves a professional platform that works for you. <br class="hidden md:block">We’re ready to make that happen.
+            </p>
+            <div class="flex flex-col md:flex-row items-center justify-center gap-4">
+                <a href="https://wa.me/2349020329575" target="_blank" class="glow-button">
+                    Contact via WhatsApp
+                </a>
+                <a href="mailto:altranex.dev@gmail.com" class="text-gray-400 hover:text-white transition-colors">altranex.dev@gmail.com</a>
+            </div>
+            <div class="mt-8">
+                <p class="text-sm text-gray-500">Website: <a href="http://www.altranex.dev" target="_blank" class="hover:underline">www.altranex.dev</a></p>
+                <p class="text-sm text-gray-500">Instagram: <a href="#" class="hover:underline">@altranex.dev</a></p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Mobile Menu Toggle ---
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const closeMenuBtn = document.getElementById('close-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+            const desktopLinks = document.querySelectorAll('.nav-link');
+            
+            // Toggle the mobile menu on button click
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('open');
+            });
+            // Close the mobile menu on close button click
+            closeMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+            });
+            // Close the mobile menu when a link is clicked
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.remove('open');
+                });
+            });
+
+            // --- Scroll-Triggered Animations ---
+            const sections = document.querySelectorAll('.animate-on-scroll');
+
+            const animObserver = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('in-view');
+                    } else {
+                        // Remove the class when the element is not in view, allowing it to re-trigger
+                        entry.target.classList.remove('in-view');
+                    }
+                });
+            }, {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.2 // Trigger when 20% of the element is visible
+            });
+
+            sections.forEach(section => {
+                animObserver.observe(section);
+            });
+
+            // --- Navigation Highlighting ---
+            const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
+            const highlightObserver = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Remove 'active' class from all links
+                        navLinks.forEach(link => link.classList.remove('active'));
+                        // Get the ID of the intersecting section
+                        const sectionId = entry.target.id;
+                        // Find the corresponding navigation links and add the 'active' class
+                        const correspondingLinks = document.querySelectorAll(`[href="#${sectionId}"]`);
+                        correspondingLinks.forEach(link => link.classList.add('active'));
+                    }
+                });
+            }, {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.5 // Highlight when the middle of the section is in view
+            });
+
+            sections.forEach(section => {
+                highlightObserver.observe(section);
+            });
+
+            // --- Particle Background Effect ---
+            const canvas = document.getElementById('particles-canvas');
+            if (canvas) {
+                const ctx = canvas.getContext('2d');
+                let mouseX = null;
+                let mouseY = null;
+                let particles = [];
+                const particleCount = 100;
+                const linkDistance = 150;
+                const mousePushDistance = 100;
+                const particleSize = 2;
+                const particleSpeed = 0.2;
+                const linkColor = 'rgba(88, 166, 255, 0.2)';
+                const particleColor = '#58a6ff';
+
+                // Function to resize canvas
+                function resizeCanvas() {
+                    canvas.width = window.innerWidth;
+                    canvas.height = document.body.scrollHeight;
+                    // Reset particles on resize to avoid them being outside the new canvas bounds
+                    particles = [];
+                    for (let i = 0; i < particleCount; i++) {
+                        particles.push(new Particle());
+                    }
+                }
+
+                // Particle class
+                class Particle {
+                    constructor() {
+                        this.x = Math.random() * canvas.width;
+                        this.y = Math.random() * canvas.height;
+                        this.vx = (Math.random() - 0.5) * particleSpeed;
+                        this.vy = (Math.random() - 0.5) * particleSpeed;
+                    }
+
+                    update() {
+                        this.x += this.vx;
+                        this.y += this.vy;
+
+                        // Bounce off walls
+                        if (this.x < 0 || this.x > canvas.width) {
+                            this.vx *= -1;
+                        }
+                        if (this.y < 0 || this.y > canvas.height) {
+                            this.vy *= -1;
+                        }
+
+                        // Mouse interaction
+                        if (mouseX !== null && mouseY !== null) {
+                            const dist = Math.hypot(this.x - mouseX, this.y - mouseY);
+                            if (dist < mousePushDistance) {
+                                const angle = Math.atan2(this.y - mouseY, this.x - mouseX);
+                                this.x += Math.cos(angle) * (mousePushDistance - dist) / 50;
+                                this.y += Math.sin(angle) * (mousePushDistance - dist) / 50;
+                            }
+                        }
+                    }
+
+                    draw() {
+                        ctx.beginPath();
+                        ctx.arc(this.x, this.y, particleSize, 0, Math.PI * 2);
+                        ctx.fillStyle = particleColor;
+                        ctx.fill();
+                    }
+                }
+
+                // Create particles
+                for (let i = 0; i < particleCount; i++) {
+                    particles.push(new Particle());
+                }
+
+                // Animation loop
+                function animate() {
+                    // Update canvas height to match document scroll height
+                    canvas.height = document.body.scrollHeight;
+
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                    for (let i = 0; i < particles.length; i++) {
+                        particles[i].update();
+                        particles[i].draw();
+
+                        for (let j = i + 1; j < particles.length; j++) {
+                            const dist = Math.hypot(particles[i].x - particles[j].x, particles[i].y - particles[j].y);
+                            if (dist < linkDistance) {
+                                const opacity = 1 - (dist / linkDistance);
+                                ctx.beginPath();
+                                ctx.moveTo(particles[i].x, particles[i].y);
+                                ctx.lineTo(particles[j].x, particles[j].y);
+                                ctx.strokeStyle = linkColor.replace('0.2', opacity);
+                                ctx.stroke();
+                            }
+                        }
+                    }
+                    requestAnimationFrame(animate);
+                }
+
+                // Mouse move event
+                document.addEventListener('mousemove', (e) => {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY + window.scrollY;
+                });
+                
+                // Mouse leave event
+                document.addEventListener('mouseleave', () => {
+                    mouseX = null;
+                    mouseY = null;
+                });
+
+                // Resize event listener
+                window.addEventListener('resize', resizeCanvas);
+                resizeCanvas(); // Initial resize
+                
+                // Start the animation
+                animate();
+            } else {
+                console.error("Canvas element not found!");
+            }
+        });
+    </script>
+
 </body>
 </html>
