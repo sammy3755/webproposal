@@ -3,15 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Altranex.dev - Website Design Proposal</title>
+    <title>ALTRANEX.DEV - Website Design Proposal</title>
     
     <!-- Add a favicon to prevent the 404 error and provide a visual identity for the page -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+    
+    <!-- Load Phosphor Icons for the arrows and other icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/dist/phosphor.js"></script>
 
     <!-- Updated Tailwind CSS CDN as recommended by the documentation -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        
+        /* Define custom colors and fonts for Tailwind */
+        :root {
+            --altranex-cyan: #08fdd8;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background-color: #0d1117;
@@ -27,14 +36,14 @@
             justify-content: center;
             align-items: center;
             padding: 4rem 1rem;
-            text-align: center;
             position: relative;
             z-index: 10;
         }
         .slide-content {
-            max-width: 900px;
+            max-width: 1200px;
             width: 100%;
         }
+        
         h1 {
             font-size: 3rem;
             font-weight: 700;
@@ -48,7 +57,7 @@
             color: #c9d1d9;
         }
         .highlight {
-            color: #58a6ff;
+            color: var(--altranex-cyan);
             font-weight: 700;
         }
         .icon-list-item {
@@ -59,7 +68,7 @@
         }
         .icon {
             flex-shrink: 0;
-            color: #58a6ff;
+            color: var(--altranex-cyan);
             width: 28px;
             height: 28px;
         }
@@ -123,7 +132,7 @@
             transform: translateX(0);
         }
         .mobile-nav-link.active {
-            color: #58a6ff;
+            color: var(--altranex-cyan);
             font-weight: 700;
         }
 
@@ -170,6 +179,117 @@
             /* CRITICAL FIX: Retain this to allow clicks to pass through to the content behind the canvas */
             pointer-events: none;
         }
+
+        /* Specific styles for the new landing page layout */
+        .landing-page-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            max-width: 1200px;
+            width: 100%;
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .landing-page-content {
+                flex-direction: column-reverse;
+                text-align: center;
+            }
+            .landing-page-right {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                opacity: 0.1;
+                z-index: -1;
+            }
+        }
+
+        /* Button styles from the reference image */
+        .explore-button {
+            background-color: var(--altranex-cyan);
+            color: #0d1117;
+            font-weight: 600;
+            padding: 1rem 2.5rem;
+            border-radius: 9999px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 15px rgba(8, 253, 216, 0.4);
+            transition: all 0.3s ease;
+        }
+        .explore-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(8, 253, 216, 0.6);
+        }
+        .contact-button {
+            color: #c9d1d9;
+            font-weight: 600;
+            padding: 1rem 2.5rem;
+            border-radius: 9999px;
+            border: 1px solid #30363d;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        .contact-button:hover {
+            border-color: var(--altranex-cyan);
+            color: var(--altranex-cyan);
+            transform: translateY(-2px);
+        }
+        
+        /* Scroll Down Animation */
+        .scroll-down-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+        }
+        .scroll-down-circle {
+            width: 100%;
+            height: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 2s infinite;
+        }
+        .scroll-down-text-container {
+            animation: rotate-text 10s linear infinite;
+        }
+        .scroll-down-text {
+            fill: #c9d1d9;
+            font-size: 8px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+        .scroll-down-arrow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--altranex-cyan);
+            font-size: 1.5rem;
+        }
+        .geometric-graphic {
+            height: 400px;
+            width: 400px;
+            color: var(--altranex-cyan);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes rotate-text {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body class="bg-grid">
@@ -177,7 +297,7 @@
     <!-- Particle Background Container -->
     <div id="particles-js"></div>
 
-    <!-- Navigation Bar -->
+    <!-- Navigation Bar (kept as-is per request) -->
     <nav class="navbar p-4 shadow-lg flex justify-between items-center">
         <a href="#slide-1" class="text-xl font-bold text-white tracking-tight">
             ALTRANEX<span class="text-sm font-normal align-top text-gray-400">.DEV</span>
@@ -214,17 +334,57 @@
         </ul>
     </div>
 
-    <!-- Slide 1: Title Page -->
+    <!-- Slide 1: New Landing Page Layout -->
     <section id="slide-1" class="slide animate-on-scroll fade-in-bottom">
-        <div class="slide-content text-center">
-            <div class="mb-8">
-                <!-- Corrected typo in the heading -->
-                <h1 class="text-6xl font-bold mb-2">ALTRANEX<span class="text-2xl font-normal align-top">.DEV</span></h1>
-                <p class="text-xl text-gray-400">Website & Digital Automation</p>
+        <div class="landing-page-content">
+            <!-- Left side: Text and Buttons -->
+            <div class="md:w-1/2 text-left">
+                <h1 class="text-4xl md:text-5xl lg:text-7xl text-white font-bold mb-4">
+                    ALTRANEX<br>Website & Digital Automation
+                </h1>
+                <p class="text-gray-300 text-lg md:text-xl max-w-lg mb-8">
+                    We propose to design and develop a high-performing website tailored to your real estate brand’s goals built to convert visitors into leads, boost online visibility, and reflect professionalism.
+                </p>
+                <div class="flex flex-col md:flex-row items-center gap-4">
+                    <a href="#slide-6" class="explore-button">
+                        VIEW PRICING
+                        <svg class="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+                        </svg>
+                    </a>
+                    <a href="#slide-8" class="contact-button">
+                        CONTACT US
+                        <svg class="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+                        </svg>
+                    </a>
+                </div>
             </div>
-            <h2 class="text-4xl md:text-5xl lg:text-6xl text-white font-bold tracking-tight mb-4">WEBSITE DESIGN PROPOSAL</h2>
-            <p class="text-gray-400 text-lg mb-2">Prepared by: Samuel Okoh for Altranex.dev</p>
-            <p class="text-gray-500">Date: August 1, 2025</p>
+            <!-- Right side: Scroll Down Graphic -->
+            <div class="md:w-1/2 flex justify-center items-center relative landing-page-right">
+                <!-- A placeholder for the geometric graphic, which could be an SVG or an image -->
+                <svg viewBox="0 0 100 100" class="geometric-graphic">
+                    <path fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1" d="M50 0 L100 25 L100 75 L50 100 L0 75 L0 25 Z" />
+                    <path fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1" d="M50 0 L50 100 M0 25 L100 75 M0 75 L100 25 Z" />
+                    <path fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1" d="M50 50 L100 75 M50 50 L0 75 M50 50 L0 25 M50 50 L100 25" />
+                </svg>
+
+                <a href="#slide-2" class="scroll-down-container absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    <div class="scroll-down-circle">
+                        <svg viewBox="0 0 100 100" width="90" height="90">
+                            <defs>
+                                <path id="circlePath" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0"/>
+                            </defs>
+                            <text class="scroll-down-text-container">
+                                <textPath class="scroll-down-text" xlink:href="#circlePath">
+                                    SCROLL DOWN • SCROLL DOWN •
+                                </textPath>
+                            </text>
+                        </svg>
+                    </div>
+                    <i class="ph-bold ph-arrow-down scroll-down-arrow"></i>
+                </a>
+            </div>
         </div>
     </section>
 
@@ -297,8 +457,7 @@
                 </div>
                 <div class="icon-list-item card md:col-span-2 animate-on-scroll fade-in-bottom">
                     <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-                    </svg>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
                     <div>
                         <h3 class="text-lg font-semibold highlight">Advanced Features</h3>
                         <p class="text-gray-400">Only a website gives you listings, filters, contact forms, maps, etc.</p>
@@ -334,7 +493,6 @@
                     <span>Listings Page (for real estate)</span>
                 </li>
                 <li class="flex items-center text-lg gap-3 card animate-on-scroll fade-in-bottom">
-                    <!-- Note: The path for this SVG was not a standard icon. It has been replaced with a more common "check" icon to represent testimonials/reviews. -->
                     <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
                     <span>Testimonials/Reviews</span>
                 </li>
@@ -429,7 +587,7 @@
                         <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a2 2 0 01-2-2V6a2 2 0 012-2h6a2 2 0 012 2v2z" /></svg>
                         <h3 class="text-lg font-semibold highlight">Direct Support</h3>
                     </div>
-                    <p class="text-sm text-gray-400">Direct support via chat or WhatsApp for peace of mind.</p>
+                    <p class="text-sm text-gray-400">Direct support via chat or WhatsApp.</p>
                 </div>
                 <div class="card animate-on-scroll fade-in-bottom">
                     <div class="flex items-center gap-3 mb-2">
@@ -457,7 +615,7 @@
                 Your brand deserves a professional platform that works for you. <br class="hidden md:block">We’re ready to make that happen.
             </p>
             <div class="flex flex-col md:flex-row items-center justify-center gap-4">
-                <a href="https://wa.me/2349020329575" target="_blank" class="glow-button">
+                <a href="https://wa.me/2349020329575" target="_blank" class="explore-button">
                     Contact via WhatsApp
                 </a>
                 <a href="mailto:altranex.dev@gmail.com" class="text-gray-400 hover:text-white transition-colors">altranex.dev@gmail.com</a>
