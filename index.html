@@ -167,7 +167,7 @@
             height: 100%;
             z-index: 0;
             background-color: transparent;
-            /* FIX: Add pointer-events: none to allow mouse clicks to pass through to the content behind the canvas */
+            /* CRITICAL FIX: Retain this to allow clicks to pass through to the content behind the canvas */
             pointer-events: none;
         }
     </style>
@@ -503,7 +503,10 @@
                 }
             },
             interactivity: {
-                detect_on: "canvas",
+                // FIX: Change 'detect_on' from 'canvas' to 'window'
+                // This allows the particles to react to the cursor's position on the entire page
+                // while the 'pointer-events: none;' CSS rule still allows clicks to pass through.
+                detect_on: "window",
                 events: {
                     onhover: { enable: true, mode: "repulse" },
                     onclick: { enable: true, mode: "push" },
