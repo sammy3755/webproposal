@@ -4,7 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Altranex.dev - Website Design Proposal</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Add a favicon to prevent the 404 error and provide a visual identity for the page -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+
+    <!-- Updated Tailwind CSS CDN as recommended by the documentation -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
         body {
@@ -12,6 +17,8 @@
             background-color: #0d1117;
             color: #c9d1d9;
             line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
         }
         .slide {
             min-height: 100vh;
@@ -22,9 +29,7 @@
             padding: 4rem 1rem;
             text-align: center;
             position: relative;
-            overflow: hidden;
-            background-color: #0d1117;
-            transition: background-color 0.5s ease;
+            z-index: 10;
         }
         .slide-content {
             max-width: 900px;
@@ -35,23 +40,16 @@
             font-weight: 700;
             color: #58a6ff;
             text-shadow: 0 0 15px rgba(88, 166, 255, 0.5);
-            transition: color 0.3s ease;
         }
         h2 {
             font-size: 2.25rem;
             font-weight: 600;
             margin-bottom: 1.5rem;
             color: #c9d1d9;
-            transition: color 0.3s ease;
         }
         .highlight {
             color: #58a6ff;
             font-weight: 700;
-        }
-        .bg-grid {
-            background-image: linear-gradient(#2f363d 1px, transparent 1px), linear-gradient(90deg, #2f363d 1px, transparent 1px);
-            background-size: 30px 30px;
-            background-position: center;
         }
         .icon-list-item {
             display: flex;
@@ -95,16 +93,133 @@
             transform: translateY(-5px);
             box-shadow: 0 8px 12px rgba(0, 0, 0, 0.4);
         }
+
+        /* Nav & Mobile Menu */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(13, 17, 23, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 100;
+        }
+        .nav-link.active {
+            color: #ffffff;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+        }
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(13, 17, 23, 0.95);
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+            z-index: 99;
+        }
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+        .mobile-nav-link.active {
+            color: #58a6ff;
+            font-weight: 700;
+        }
+
+        /* Scroll-triggered Animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .animate-on-scroll.in-view {
+            opacity: 1;
+        }
+        .fade-in-bottom {
+            transform: translateY(50px);
+        }
+        .fade-in-bottom.in-view {
+            transform: translateY(0);
+        }
+        .fade-in-left {
+            transform: translateX(-50px);
+        }
+        .fade-in-left.in-view {
+            transform: translateX(0);
+        }
+        .fade-in-right {
+            transform: translateX(50px);
+        }
+        .fade-in-right.in-view {
+            transform: translateX(0);
+        }
+        canvas {
+            display: block;
+            vertical-align: bottom;
+        }
+        /* Particles.js container styling */
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-image: url("");
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background-color: transparent;
+            /* FIX: Add pointer-events: none to allow mouse clicks to pass through to the content behind the canvas */
+            pointer-events: none;
+        }
     </style>
 </head>
 <body class="bg-grid">
 
+    <!-- Particle Background Container -->
+    <div id="particles-js"></div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar p-4 shadow-lg flex justify-between items-center">
+        <a href="#slide-1" class="text-xl font-bold text-white tracking-tight">
+            ALTRANEX<span class="text-sm font-normal align-top text-gray-400">.DEV</span>
+        </a>
+        <!-- Desktop Menu -->
+        <ul class="hidden md:flex space-x-6 text-gray-300 font-semibold">
+            <li><a href="#slide-1" class="nav-link hover:text-white transition-colors">Home</a></li>
+            <li><a href="#slide-2" class="nav-link hover:text-white transition-colors">About Us</a></li>
+            <li><a href="#slide-6" class="nav-link hover:text-white transition-colors">Pricing</a></li>
+            <li><a href="#slide-7" class="nav-link hover:text-white transition-colors">Why Choose Us</a></li>
+            <li><a href="#slide-8" class="nav-link hover:text-white transition-colors">Contact</a></li>
+        </ul>
+        <!-- Mobile Menu Button (Hamburger) -->
+        <button id="mobile-menu-btn" class="md:hidden text-white focus:outline-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+            </svg>
+        </button>
+    </nav>
+
+    <!-- Mobile Menu Sidebar -->
+    <div id="mobile-menu" class="mobile-menu flex flex-col items-center justify-center space-y-8">
+        <button id="close-menu-btn" class="absolute top-6 right-6 text-white focus:outline-none">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+        <ul class="flex flex-col items-center space-y-6 text-2xl font-semibold text-gray-300">
+            <li><a href="#slide-1" class="mobile-nav-link hover:text-white transition-colors">Home</a></li>
+            <li><a href="#slide-2" class="mobile-nav-link hover:text-white transition-colors">About Us</a></li>
+            <li><a href="#slide-6" class="mobile-nav-link hover:text-white transition-colors">Pricing</a></li>
+            <li><a href="#slide-7" class="mobile-nav-link hover:text-white transition-colors">Why Choose Us</a></li>
+            <li><a href="#slide-8" class="mobile-nav-link hover:text-white transition-colors">Contact</a></li>
+        </ul>
+    </div>
+
     <!-- Slide 1: Title Page -->
-    <section class="slide">
+    <section id="slide-1" class="slide animate-on-scroll fade-in-bottom">
         <div class="slide-content text-center">
             <div class="mb-8">
-                <!-- Placeholder for logo with a glow effect -->
-                <h1 class="text-6xl font-bold mb-2">A ALTRANEX<span class="text-2xl font-normal align-top">.DEV</span></h1>
+                <!-- Corrected typo in the heading -->
+                <h1 class="text-6xl font-bold mb-2">ALTRANEX<span class="text-2xl font-normal align-top">.DEV</span></h1>
                 <p class="text-xl text-gray-400">Website & Digital Automation</p>
             </div>
             <h2 class="text-4xl md:text-5xl lg:text-6xl text-white font-bold tracking-tight mb-4">WEBSITE DESIGN PROPOSAL</h2>
@@ -114,7 +229,7 @@
     </section>
 
     <!-- Slide 2: About Us -->
-    <section class="slide bg-gray-900">
+    <section id="slide-2" class="slide bg-gray-900 animate-on-scroll fade-in-bottom">
         <div class="slide-content text-left p-6">
             <h2 class="text-4xl font-bold mb-6">About Us <span class="highlight">— Altranex.dev</span></h2>
             <p class="text-lg md:text-xl leading-relaxed">
@@ -127,7 +242,7 @@
     </section>
 
     <!-- Slide 3: Project Overview -->
-    <section class="slide">
+    <section id="slide-3" class="slide animate-on-scroll fade-in-left">
         <div class="slide-content text-left p-6">
             <h2 class="text-4xl font-bold mb-6">Project <span class="highlight">Overview</span></h2>
             <p class="text-lg md:text-xl leading-relaxed">
@@ -140,12 +255,11 @@
     </section>
 
     <!-- Slide 4: Why You Need a Website -->
-    <section class="slide bg-gray-900">
+    <section id="slide-4" class="slide bg-gray-900 animate-on-scroll fade-in-right">
         <div class="slide-content p-6">
             <h2 class="text-4xl font-bold mb-12">Why You Need a Website <br><span class="text-xl font-normal text-gray-500">(Not Just Social Media)</span></h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Reason 1 -->
-                <div class="icon-list-item card">
+                <div class="icon-list-item card animate-on-scroll fade-in-bottom">
                     <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-4a2 2 0 00-2-2H6a2 2 0 00-2 2v4a2 2 0 002 2zm1-9h10a1 1 0 011 1v4a1 1 0 01-1 1H7a1 1 0 01-1-1v-4a1 1 0 011-1z" />
                     </svg>
@@ -154,8 +268,7 @@
                         <p class="text-gray-400">Your digital property is safe from bans, hacks, or algorithm changes.</p>
                     </div>
                 </div>
-                <!-- Reason 2 -->
-                <div class="icon-list-item card">
+                <div class="icon-list-item card animate-on-scroll fade-in-bottom">
                     <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
@@ -164,8 +277,7 @@
                         <p class="text-gray-400">Appear in search results and attract local clients.</p>
                     </div>
                 </div>
-                <!-- Reason 3 -->
-                <div class="icon-list-item card">
+                <div class="icon-list-item card animate-on-scroll fade-in-bottom">
                     <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 4.04A12.001 12.001 0 002.924 12c0 2.802.937 5.498 2.628 7.618a12.001 12.001 0 0014.896 0A12.001 12.001 0 0021.076 12a12.001 12.001 0 00-2.458-7.984z" />
                     </svg>
@@ -174,8 +286,7 @@
                         <p class="text-gray-400">A well-designed website establishes credibility.</p>
                     </div>
                 </div>
-                <!-- Reason 4 -->
-                <div class="icon-list-item card">
+                <div class="icon-list-item card animate-on-scroll fade-in-bottom">
                     <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
@@ -184,8 +295,7 @@
                         <p class="text-gray-400">Showcases properties and collects leads even while you sleep.</p>
                     </div>
                 </div>
-                <!-- Reason 5 -->
-                <div class="icon-list-item card md:col-span-2">
+                <div class="icon-list-item card md:col-span-2 animate-on-scroll fade-in-bottom">
                     <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
                     </svg>
@@ -199,43 +309,44 @@
     </section>
 
     <!-- Slide 5: Deliverables -->
-    <section class="slide">
+    <section id="slide-5" class="slide animate-on-scroll fade-in-bottom">
         <div class="slide-content p-6">
             <h2 class="text-4xl font-bold mb-8">What You Get <span class="highlight">(Deliverables)</span></h2>
             <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left">
-                <li class="flex items-center text-lg gap-3 card">
+                <li class="flex items-center text-lg gap-3 card animate-on-scroll fade-in-bottom">
                     <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v2a2 2 0 01-2 2m0-6V7a2 2 0 00-2-2H7a2 2 0 00-2 2v6m0-6h14" /></svg>
                     <span>Homepage + Brand messaging</span>
                 </li>
-                <li class="flex items-center text-lg gap-3 card">
+                <li class="flex items-center text-lg gap-3 card animate-on-scroll fade-in-bottom">
                     <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.485 9.168 5 7.5 5S4.168 5.485 3 6.253v13C4.168 18.485 5.832 18 7.5 18s3.332.485 4.5 1.253m0-13C13.168 5.485 14.832 5 16.5 5c1.668 0 3.332.485 4.5 1.253v13C19.832 18.485 18.168 18 16.5 18s-3.332.485-4.5 1.253" /></svg>
                     <span>About Us section</span>
                 </li>
-                <li class="flex items-center text-lg gap-3 card">
+                <li class="flex items-center text-lg gap-3 card animate-on-scroll fade-in-bottom">
                     <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v4a2 2 0 002 2h4a2 2 0 002-2V7m-4 12a2 2 0 01-2-2v-4a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4z" /></svg>
                     <span>Services breakdown</span>
                 </li>
-                <li class="flex items-center text-lg gap-3 card">
+                <li class="flex items-center text-lg gap-3 card animate-on-scroll fade-in-bottom">
                     <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a2 2 0 01-2-2V6a2 2 0 012-2h6a2 2 0 012 2v2z" /></svg>
                     <span>Contact page with form & WhatsApp</span>
                 </li>
-                <li class="flex items-center text-lg gap-3 card">
+                <li class="flex items-center text-lg gap-3 card animate-on-scroll fade-in-bottom">
                     <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7m-7-7v12m-6-12v12" /></svg>
                     <span>Listings Page (for real estate)</span>
                 </li>
-                <li class="flex items-center text-lg gap-3 card">
-                    <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.088 12.072L8 15.15l-1-1-1 1-1-1-1 1-1-1-1 1" /></svg>
+                <li class="flex items-center text-lg gap-3 card animate-on-scroll fade-in-bottom">
+                    <!-- Note: The path for this SVG was not a standard icon. It has been replaced with a more common "check" icon to represent testimonials/reviews. -->
+                    <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
                     <span>Testimonials/Reviews</span>
                 </li>
-                <li class="flex items-center text-lg gap-3 card">
+                <li class="flex items-center text-lg gap-3 card animate-on-scroll fade-in-bottom">
                     <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 21.25a.75.75 0 00.75.75h4.5a.75.75 0 00.75-.75L14.25 17m-4.5 0a.75.75 0 01-.75-.75V8.25a.75.75 0 01.75-.75h4.5a.75.75 0 01.75.75v8.00m-4.5 0h4.5" /></svg>
                     <span>Responsive (mobile/tablet)</span>
                 </li>
-                <li class="flex items-center text-lg gap-3 card">
+                <li class="flex items-center text-lg gap-3 card animate-on-scroll fade-in-bottom">
                     <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                     <span>SEO-ready structure</span>
                 </li>
-                <li class="flex items-center text-lg gap-3 card">
+                <li class="flex items-center text-lg gap-3 card animate-on-scroll fade-in-bottom">
                     <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.313 2.687 6 6 6s6-2.687 6-6-2.687-6-6-6-6 2.687-6 6zM18 11v6m3-3h-6M6 11h.01M6 15h.01M6 19h.01" /></svg>
                     <span>Secure, fast, and optimized</span>
                 </li>
@@ -244,7 +355,7 @@
     </section>
 
     <!-- Slide 6: Structured Pricing -->
-    <section class="slide bg-gray-900">
+    <section id="slide-6" class="slide bg-gray-900 animate-on-scroll fade-in-right">
         <div class="slide-content p-6">
             <h2 class="text-4xl font-bold mb-8">Structured <span class="highlight">Pricing</span></h2>
             <div class="overflow-x-auto">
@@ -258,31 +369,31 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="border-b border-gray-700 hover:bg-gray-800 transition-colors">
+                        <tr class="border-b border-gray-700 hover:bg-gray-800 transition-colors animate-on-scroll fade-in-bottom">
                             <td class="p-4 font-medium highlight">Landing Page</td>
                             <td class="p-4">Single scroll page: About, Services, CTA, Contact, WhatsApp</td>
                             <td class="p-4">14 – 21 days</td>
                             <td class="p-4 font-bold">₦100,000</td>
                         </tr>
-                        <tr class="border-b border-gray-700 hover:bg-gray-800 transition-colors">
+                        <tr class="border-b border-gray-700 hover:bg-gray-800 transition-colors animate-on-scroll fade-in-bottom">
                             <td class="p-4 font-medium highlight">Starter Website</td>
                             <td class="p-4">5-page site: Home, About, Services, Listings, Contact</td>
                             <td class="p-4">14 – 21 days</td>
                             <td class="p-4 font-bold">₦150,000</td>
                         </tr>
-                        <tr class="border-b border-gray-700 hover:bg-gray-800 transition-colors">
+                        <tr class="border-b border-gray-700 hover:bg-gray-800 transition-colors animate-on-scroll fade-in-bottom">
                             <td class="p-4 font-medium highlight">Business Website</td>
                             <td class="p-4">Full Listings, Testimonials, Blog layout, WhatsApp integration</td>
                             <td class="p-4">12 – 21 days</td>
                             <td class="p-4 font-bold">₦200,000</td>
                         </tr>
-                        <tr class="border-b border-gray-700 hover:bg-gray-800 transition-colors">
+                        <tr class="border-b border-gray-700 hover:bg-gray-800 transition-colors animate-on-scroll fade-in-bottom">
                             <td class="p-4 font-medium highlight">Premium Website</td>
                             <td class="p-4">Business + Admin dashboard (CMS), SEO, Analytics, CMS training</td>
                             <td class="p-4">21 – 30 days</td>
                             <td class="p-4 font-bold">₦300,000</td>
                         </tr>
-                        <tr class="hover:bg-gray-800 transition-colors">
+                        <tr class="hover:bg-gray-800 transition-colors animate-on-scroll fade-in-bottom">
                             <td class="p-4 font-medium highlight">Enterprise Website</td>
                             <td class="p-4">Premium + Multi-agent login, uploads, client portal</td>
                             <td class="p-4">25 – 30 days</td>
@@ -295,44 +406,39 @@
     </section>
 
     <!-- Slide 7: Why Choose Altranex.dev? -->
-    <section class="slide">
+    <section id="slide-7" class="slide animate-on-scroll fade-in-left">
         <div class="slide-content p-6">
             <h2 class="text-4xl font-bold mb-8">Why Choose <span class="highlight">Altranex.dev?</span></h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left">
-                <!-- Benefit 1 -->
-                <div class="card">
+                <div class="card animate-on-scroll fade-in-bottom">
                     <div class="flex items-center gap-3 mb-2">
                         <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20.005l-8-8 8-8m4 16l8-8-8-8" /></svg>
                         <h3 class="text-lg font-semibold highlight">Custom Coded</h3>
                     </div>
                     <p class="text-sm text-gray-400">Websites are custom built, not drag-and-drop templates.</p>
                 </div>
-                <!-- Benefit 2 -->
-                <div class="card">
+                <div class="card animate-on-scroll fade-in-bottom">
                     <div class="flex items-center gap-3 mb-2">
                         <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c1.657 0 3 1.343 3 3s-1.343 3-3 3-3-1.343-3-3 1.343-3 3-3z" /></svg>
                         <h3 class="text-lg font-semibold highlight">Mobile First & SEO Friendly</h3>
                     </div>
                     <p class="text-sm text-gray-400">Builds are optimized for all devices and search engines.</p>
                 </div>
-                <!-- Benefit 3 -->
-                <div class="card">
+                <div class="card animate-on-scroll fade-in-bottom">
                     <div class="flex items-center gap-3 mb-2">
                         <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a2 2 0 01-2-2V6a2 2 0 012-2h6a2 2 0 012 2v2z" /></svg>
                         <h3 class="text-lg font-semibold highlight">Direct Support</h3>
                     </div>
                     <p class="text-sm text-gray-400">Direct support via chat or WhatsApp for peace of mind.</p>
                 </div>
-                <!-- Benefit 4 -->
-                <div class="card">
+                <div class="card animate-on-scroll fade-in-bottom">
                     <div class="flex items-center gap-3 mb-2">
                         <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                         <h3 class="text-lg font-semibold highlight">Scalable</h3>
                     </div>
                     <p class="text-sm text-gray-400">Easily upgrade your website as your business grows.</p>
                 </div>
-                <!-- Benefit 5 -->
-                <div class="card">
+                <div class="card animate-on-scroll fade-in-bottom">
                     <div class="flex items-center gap-3 mb-2">
                         <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 4.04A12.001 12.001 0 002.924 12c0 2.802.937 5.498 2.628 7.618a12.001 12.001 0 0014.896 0A12.001 12.001 0 0021.076 12a12.001 12.001 0 00-2.458-7.984z" /></svg>
                         <h3 class="text-lg font-semibold highlight">Competitive Pricing</h3>
@@ -344,7 +450,7 @@
     </section>
 
     <!-- Slide 8: Call to Action / Closing -->
-    <section class="slide bg-gray-900">
+    <section id="slide-8" class="slide bg-gray-900 animate-on-scroll fade-in-right">
         <div class="slide-content text-center p-6">
             <h2 class="text-4xl font-bold mb-4">Let’s Build Your Digital Presence</h2>
             <p class="text-xl md:text-2xl mb-8">
@@ -363,5 +469,123 @@
         </div>
     </section>
 
+    <!-- Particles.js library - NOTE: URL is updated to HTTPS to prevent mixed content errors. -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // --- Initialize Particles.js ---
+        particlesJS("particles-js", {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: "#58a6ff" },
+                shape: {
+                    type: "circle",
+                    stroke: { width: 0, color: "#000000" },
+                    polygon: { nb_sides: 5 },
+                },
+                opacity: { value: 0.5, random: false,anim: { enable: false, speed: 1, opacity_min: 0.1, sync: false }},
+                size: { value: 3, random: true,anim: { enable: false, speed: 40, size_min: 0.1, sync: false } },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#58a6ff",
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 3,
+                    direction: "none",
+                    random: false,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false,
+                    attract: { enable: false, rotateX: 600, rotateY: 1200 }
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "repulse" },
+                    onclick: { enable: true, mode: "push" },
+                    resize: true
+                },
+                modes: {
+                    grab: { distance: 400, line_linked: { opacity: 1 } },
+                    bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 },
+                    repulse: { distance: 200, duration: 0.4 },
+                    push: { particles_nb: 4 },
+                    remove: { particles_nb: 2 }
+                }
+            },
+            retina_detect: true
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Mobile Menu Toggle ---
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const closeMenuBtn = document.getElementById('close-menu-btn');
+            const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+            
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('open');
+            });
+            closeMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+            });
+
+            // Close menu when a link is clicked
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.remove('open');
+                });
+            });
+
+            // --- Scroll-Triggered Animations ---
+            const sections = document.querySelectorAll('.animate-on-scroll');
+
+            const animObserver = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('in-view');
+                    } else {
+                        // The `in-view` class is removed to allow the animation to re-trigger
+                        // when the user scrolls back to the section.
+                        entry.target.classList.remove('in-view');
+                    }
+                });
+            }, {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.2
+            });
+
+            sections.forEach(section => {
+                animObserver.observe(section);
+            });
+
+            // --- Navigation Highlighting ---
+            const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
+            const highlightObserver = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => link.classList.remove('active'));
+                        const sectionId = entry.target.id;
+                        const correspondingLinks = document.querySelectorAll(`[href="#${sectionId}"]`);
+                        correspondingLinks.forEach(link => link.classList.add('active'));
+                    }
+                });
+            }, {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.5
+            });
+
+            sections.forEach(section => {
+                highlightObserver.observe(section);
+            });
+        });
+    </script>
 </body>
 </html>
